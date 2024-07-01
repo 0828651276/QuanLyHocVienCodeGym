@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<img height="200px" width="1400px" src="https://deha-soft.com/wp-content/uploads/2023/06/codegym.jpg" alt="CodeGym">
+<form action="">
+    <fieldset>
+        <legend>Them hoc sinh moi</legend>
+        <label for="Stt">Stt</label>
+        <br>
+        <input type="number" id="Stt" placeholder="">
+        <br>
+        <label for="Name">Name</label>
+        <br>
+        <input type="text" id="Name" placeholder="">
+        <br>
+        <label for="Date">Date</label>
+        <br>
+        <input type="text" id="Date" placeholder="">
+        <br>
+        <label for="Gender">Gender</label>
+        <br>
+        <input type="text" id="Gender" placeholder="">
+        <br>
+        <label for="Address">Address</label>
+        <br>
+        <input type="text" id="Address" placeholder="">
+        <br>
+        <label for="Classroom">Classroom</label>
+        <br>
+        <input type="text" id="Classroom" placeholder="">
+        <br>
+        <label for="file">Avatar</label>
+        <br>
+        <input type="file" id="file" accept="" placeholder="">
+        <br>
+        <button type="button" id="addButton" onclick="addnewhocVien()">Add</button>
+        <br>
+    </fieldset>
+</form>
+<h3>Danh Sach Hoc Vien CodeGym</h3>
+<p id="total"></p>
+<table border="2px">
+    <thead>
+    <tr>
+        <th>Stt</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Classroom</th>
+        <th>Avatar</th>
+        <th colspan="2">Action</th>
+    </tr>
+    </thead>
+    <tbody id="body">
+    </tbody>
+</table>
+<script>
+    class hocVien {
+        constructor(stt, name, date, gender, address, classroom, avatar) {
+            this.stt = stt;
+            this.name = name;
+            this.date = date;
+            this.gender = gender;
+            this.address = address;
+            this.classroom = classroom;
+            this.avatar = avatar;
+        }
+
+        setStt(stt) {
+            this.stt = stt;
+        }
+
+        getStt() {
+            return this.stt;
+        }
+
+        setName(name) {
+            this.name = name;
+        }
+
+        getName() {
+            return this.name;
+        }
+
+        setDate(date) {
+            this.date = date;
+        }
+
+        getDate() {
+            return this.date;
+        }
+
+        setGender(gender) {
+            this.gender = gender;
+        }
+
+        getGender() {
+            return this.gender;
+        }
+
+        setAddress(address) {
+            this.address = address;
+        }
+
+        getAddress() {
+            return this.address;
+        }
+
+        setClassroom(classroom) {
+            this.classroom = classroom;
+        }
+
+        getClassroom() {
+            return this.classroom;
+        }
+
+        setAvatar(avatar) {
+            this.avatar = avatar;
+        }
+
+        getAvatar() {
+            return this.avatar;
+        }
+    }
+
+    let hocVien1 = new hocVien("01", "Le van chuyen", "29/03/2004", "Nam", "nam dinh", "C0524I1", "avatar1.jpg");
+    let hocVien2 = new hocVien("02", "Le van hao", "29/03/2004", "Nam", "ha noi", "C0524I1", "avatar2.jpg");
+    let hocVien3 = new hocVien("03", "Le van kien", "29/03/2004", "Nam", "ha noi", "C0524I1", "avatar3.jpg");
+
+    let hocViens = [hocVien1, hocVien2, hocVien3];
+
+    function displayhocVien() {
+        let str = "";
+        for (let i = 0; i < hocViens.length; i++) {
+            str +=
+                `<tr>
+                    <td>${hocViens[i].getStt()}</td>
+                    <td>${hocViens[i].getName()}</td>
+                    <td>${hocViens[i].getDate()}</td>
+                    <td>${hocViens[i].getGender()}</td>
+                    <td>${hocViens[i].getAddress()}</td>
+                    <td>${hocViens[i].getClassroom()}</td>
+                    <td><img src="${hocViens[i].getAvatar()}" height="50px" alt="avatar"></td>
+                    <td><button onclick="edit(${i})">Edit</button></td>
+                    <td><button onclick="remove(${i})">Delete</button></td>
+                </tr>`;
+        }
+        document.getElementById("body").innerHTML = str;
+        document.getElementById("total").innerHTML = hocViens.length + " hocVien(s)";
+    }
+
+    displayhocVien();
+
+    function remove(index) {
+        let check = confirm("Are you sure?");
+        if (check) {
+            hocViens.splice(index, 1);
+            alert("Delete successfully!");
+            displayhocVien();
+        }
+    }
+
+    function addnewhocVien() {
+        let hocVienStt = document.getElementById("Stt").value;
+        let hocVienName = document.getElementById("Name").value;
+        let hocVienDate = document.getElementById("Date").value;
+        let hocVienGender = document.getElementById("Gender").value;
+        let hocVienAddress = document.getElementById("Address").value;
+        let hocVienClassroom = document.getElementById("Classroom").value;
+        let hocVienAvatar = document.getElementById("file").files[0] ? URL.createObjectURL(document.getElementById("file").files[0]) : '';
+
+        let newhocVien = new hocVien(hocVienStt, hocVienName, hocVienDate, hocVienGender, hocVienAddress, hocVienClassroom, hocVienAvatar);
+        hocViens.push(newhocVien);
+
+        document.getElementById("Stt").value = "";
+        document.getElementById("Name").value = "";
+        document.getElementById("Date").value = "";
+        document.getElementById("Gender").value = "";
+        document.getElementById("Address").value = "";
+        document.getElementById("Classroom").value = "";
+        document.getElementById("file").value = "";
+
+        displayhocVien();
+        alert("Added new hocVien successfully");
+    }
+
+    function edit(index) {
+        let hocVien = hocViens[index];
+
+        document.getElementById("Stt").value = hocVien.getStt();
+        document.getElementById("Name").value = hocVien.getName();
+        document.getElementById("Date").value = hocVien.getDate();
+        document.getElementById("Gender").value = hocVien.getGender();
+        document.getElementById("Address").value = hocVien.getAddress();
+        document.getElementById("Classroom").value = hocVien.getClassroom();
+
+        document.getElementById("addButton").innerText = "Save";
+        document.getElementById("addButton").onclick = function () {
+            savehocVien(index);
+        };
+    }
+
+    function savehocVien(index) {
+        let hocVien = hocViens[index];
+
+        hocVien.setStt(document.getElementById("Stt").value);
+        hocVien.setName(document.getElementById("Name").value);
+        hocVien.setDate(document.getElementById("Date").value);
+        hocVien.setGender(document.getElementById("Gender").value);
+        hocVien.setAddress(document.getElementById("Address").value);
+        hocVien.setClassroom(document.getElementById("Classroom").value);
+
+        if (document.getElementById("file").files[0]) {
+            hocVien.setAvatar(URL.createObjectURL(document.getElementById("file").files[0]));
+        }
+
+        document.getElementById("Stt").value = "";
+        document.getElementById("Name").value = "";
+        document.getElementById("Date").value = "";
+        document.getElementById("Gender").value = "";
+        document.getElementById("Address").value = "";
+        document.getElementById("Classroom").value = "";
+        document.getElementById("file").value = "";
+
+        document.getElementById("addButton").innerText = "Add";
+        document.getElementById("addButton").onclick = addnewhocVien;
+
+        displayhocVien();
+        alert("Updated hocVien successfully");
+    }
+</script>
+</body>
+</html>
